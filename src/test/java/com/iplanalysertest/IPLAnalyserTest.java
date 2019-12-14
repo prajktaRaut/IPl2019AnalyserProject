@@ -66,7 +66,7 @@ public class IPLAnalyserTest {
     }
 
     @Test
-    public void givenIndianStateCodeData_WithWrongFile_ShouldThrowException_() {
+    public void loadIPLData_WithWrongFileType_ShouldThrowException_() {
         try {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
