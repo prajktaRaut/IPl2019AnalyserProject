@@ -41,6 +41,8 @@ public class IPLAnalyser {
             throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.UNABLE_TO_PARSE);
         } catch (IOException e) {
             throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.FILE_PROBLEM);
+        }catch (RuntimeException e) {
+            throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.HEADER_OR_DELIMITER_PROBLEM);
         }
     }
 
