@@ -41,4 +41,13 @@ public class IPLAnalyserTest {
         Assert.assertEquals(false,result);
     }
 
+    @Test
+    public void loadIPLData_ShouldReturnCorrectRecords() {
+        int result= 0;
+        try {
+            result = iplAnalyser.loadIPLData(IPL_FILE_PATH);
+            Assert.assertEquals(101,result);
+        } catch (CSVBuilderException e) {
+        }
+    }
 }
