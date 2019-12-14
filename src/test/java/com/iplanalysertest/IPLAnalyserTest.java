@@ -2,9 +2,12 @@ package com.iplanalysertest;
 
 import com.bridgelabzs.CSVBuilderException;
 import com.iplanalyser.IPLAnalyser;
+import com.iplanalyser.IPLCensusCSV;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import java.util.List;
 
 public class IPLAnalyserTest {
 
@@ -27,21 +30,18 @@ public class IPLAnalyserTest {
 
     @Test
     public void method_ToCheck_IPLFileExist_ShouldReturnDoesNotExist() {
-
         String result = iplAnalyser.checkIPLFilePresensce(INCORRECT_IPL_FILE);
         Assert.assertEquals("DOES NOT EXIST", result);
     }
 
     @Test
     public void method_ToCheck_EmptyIPLFile_ShouldReturnTrue() {
-
         boolean result = iplAnalyser.checkIPLFileEmptyOrNot(EMPTY_IPL_FILE);
         Assert.assertEquals(true, result);
     }
 
     @Test
     public void method_ToCheck_NOtEmptyIPLFile_ShouldReturnFalse() {
-
         boolean result = iplAnalyser.checkIPLFileEmptyOrNot(IPL_FILE_PATH);
         Assert.assertEquals(false, result);
     }
@@ -96,6 +96,15 @@ public class IPLAnalyserTest {
             iplAnalyser.loadIPLData(IPL_FILE_FOR_WRONG_DELIMITER_OR_HEADER_POSITION);
         } catch (CSVBuilderException e) {
             Assert.assertEquals(CSVBuilderException.ExceptionType.HEADER_OR_DELIMITER_PROBLEM, e.type);
+        }
+    }
+
+    @Test
+    public void sortIPLFileData_OnBattingAverage_ShouldReturnSortedRecords() {
+        try {
+            List<IPLCensusCSV> iplCensusCSVS = iplAnalyser.sortIPLDataOnBattingAverage(IPL_FILE_PATH);
+            Assert.assertEquals("MS Dhoni", iplCensusCSVS.get(0).player);
+        } catch (CSVBuilderException e) {
         }
     }
 }

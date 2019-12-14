@@ -26,7 +26,7 @@ public class IPLCensusCSV {
     public String hs;
 
     @CsvBindByName(column = "Avg")
-    public String avg;
+    public double avg;
 
     @CsvBindByName(column = "BF")
     public String bf;
@@ -47,6 +47,10 @@ public class IPLCensusCSV {
     public int six;
 
     public IPLCensusCSV() {
+    }
+
+    public double getAvg() {
+        return avg;
     }
 
     @Override
