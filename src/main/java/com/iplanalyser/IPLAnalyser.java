@@ -10,4 +10,12 @@ public class IPLAnalyser {
             return "EXIST";
         return "DOES NOT EXIST";
     }
+
+    public boolean checkIPLFileEmptyOrNot(String ipl_file_path)
+    {
+        File file = new File(ipl_file_path);
+        if (file.length()==0)
+            return true;
+        return false;
+    }
 }
