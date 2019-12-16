@@ -132,4 +132,17 @@ public class IPLAnalyserTest {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void sortIPLFileData_OnBestStrikingRateAndSixesFours_ShouldReturnSortedResult() {
+        String iplCensusCsv=null;
+        try {
+            iplAnalyser.loadIPLData(IPL_FILE_PATH);
+            iplCensusCsv=iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.StrikingRateWithSixesAndFours);
+            IPLCensusCSV[] censusCSV=new Gson().fromJson(iplCensusCsv,IPLCensusCSV[].class);
+            Assert.assertEquals("Andre Russell",censusCSV[0].player);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        }
+    }
 }

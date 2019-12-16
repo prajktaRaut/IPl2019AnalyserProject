@@ -24,6 +24,7 @@ public class IPLAnalyser {
         this.fieldComparatorMap.put(FieldNameForSorting.Average, Comparator.comparing(field -> field.average, Comparator.reverseOrder()));
         this.fieldComparatorMap.put(FieldNameForSorting.Striking_Rate, Comparator.comparing(fields -> fields.strikingRate, Comparator.reverseOrder()));
         this.fieldComparatorMap.put(FieldNameForSorting.ResultOfSixesWithFours,new SortedOnSixesWithFours().reversed());
+        this.fieldComparatorMap.put(FieldNameForSorting.StrikingRateWithSixesAndFours,new SortedOnSixesWithFours().reversed().thenComparing((fields -> fields.strikingRate)));
     }
 
     public String checkILLFilePresence(String ipl_file_path) {
