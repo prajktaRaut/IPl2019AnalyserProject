@@ -110,11 +110,11 @@ public class IPLAnalyserTest {
 
     @Test
     public void sortIPLFileData_OnStrikingRate_ShouldReturnSortedRecords() {
-        String iplCensusCSV=null;
+        String iplCensusCSV = null;
         try {
             iplAnalyser.loadIPLData(IPL_FILE_PATH);
             iplCensusCSV = iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.Striking_Rate);
-            IPLCensusCSV[] censusCSV=new Gson().fromJson(iplCensusCSV,IPLCensusCSV[].class);
+            IPLCensusCSV[] censusCSV = new Gson().fromJson(iplCensusCSV, IPLCensusCSV[].class);
             Assert.assertEquals("Ishant Sharma", censusCSV[0].player);
         } catch (CSVBuilderException e) {
         }
@@ -122,12 +122,12 @@ public class IPLAnalyserTest {
 
     @Test
     public void sortIPLFileData_OnSixesAndFours_ShouldReturnSortedResult() {
-        String iplCensusCsv=null;
+        String iplCensusCsv = null;
         try {
             iplAnalyser.loadIPLData(IPL_FILE_PATH);
-            iplCensusCsv=iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.Player);
-            IPLCensusCSV[] censusCSV=new Gson().fromJson(iplCensusCsv,IPLCensusCSV[].class);
-            Assert.assertEquals("Shikhar Dhawan",censusCSV[0].player);
+            iplCensusCsv = iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.ResultOfSixesWithFours);
+            IPLCensusCSV[] censusCSV = new Gson().fromJson(iplCensusCsv, IPLCensusCSV[].class);
+            Assert.assertEquals("Andre Russell", censusCSV[0].player);
         } catch (CSVBuilderException e) {
             e.printStackTrace();
         }

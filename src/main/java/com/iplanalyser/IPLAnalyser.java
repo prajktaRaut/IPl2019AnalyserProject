@@ -23,11 +23,7 @@ public class IPLAnalyser {
     public IPLAnalyser() {
         this.fieldComparatorMap.put(FieldNameForSorting.Average, Comparator.comparing(field -> field.average, Comparator.reverseOrder()));
         this.fieldComparatorMap.put(FieldNameForSorting.Striking_Rate, Comparator.comparing(fields -> fields.strikingRate, Comparator.reverseOrder()));
-
-        Comparator<IPLCensusDAO> foursComparator=Comparator.comparing(field->field.fours,Comparator.reverseOrder());
-        Comparator<IPLCensusDAO> sixComparator=Comparator.comparing(field->field.six,Comparator.reverseOrder());
-        Comparator<IPLCensusDAO> resultComparator=foursComparator.thenComparing(sixComparator);
-        this.fieldComparatorMap.put(FieldNameForSorting.Player,resultComparator);
+        this.fieldComparatorMap.put(FieldNameForSorting.ResultOfSixesWithFours,new SortedOnSixesWithFours().reversed());
     }
 
     public String checkILLFilePresence(String ipl_file_path) {
