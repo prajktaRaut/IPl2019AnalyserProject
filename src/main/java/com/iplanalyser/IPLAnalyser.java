@@ -21,9 +21,8 @@ public class IPLAnalyser {
     Map<FieldNameForSorting, Comparator<IPLCensusDAO>> fieldComparatorMap = new HashMap<>();
 
     public IPLAnalyser() {
-
-        this.fieldComparatorMap.put(FieldNameForSorting.Average, Comparator.comparing(field -> field.average,Comparator.reverseOrder()));
-
+        this.fieldComparatorMap.put(FieldNameForSorting.Average, Comparator.comparing(field -> field.average, Comparator.reverseOrder()));
+        this.fieldComparatorMap.put(FieldNameForSorting.Striking_Rate, Comparator.comparing(fields -> fields.strikingRate, Comparator.reverseOrder()));
     }
 
     public String checkILLFilePresence(String ipl_file_path) {
@@ -48,7 +47,7 @@ public class IPLAnalyser {
             Iterable<IPLCensusCSV> iterable = () -> iterator;
             StreamSupport.stream(iterable.spliterator(), false)
                     .map(IPLCensusCSV.class::cast)
-                    .forEach(censusCSV -> censusIPLMap.put(censusCSV.avg, new IPLCensusDAO(censusCSV)));
+                    .forEach(censusCSV -> censusIPLMap.put(censusCSV.player, new IPLCensusDAO(censusCSV)));
             return this.censusIPLMap.size();
 
         } catch (CSVBuilderException e) {
@@ -60,7 +59,7 @@ public class IPLAnalyser {
         }
     }
 
-    public String sortIPLDataOnBattingAverage(FieldNameForSorting fieldName) throws CSVBuilderException {
+    public String sortIPLDataBasedOnFields(FieldNameForSorting fieldName) throws CSVBuilderException {
         if (censusIPLMap == null || censusIPLMap.size() == 0) {
             throw new CSVBuilderException("No Census Data", CSVBuilderException.ExceptionType.NO_CENSUS_DATA);
         }
