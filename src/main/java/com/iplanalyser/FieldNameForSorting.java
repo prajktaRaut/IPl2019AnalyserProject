@@ -2,5 +2,5 @@ package com.iplanalyser;
 
 public enum FieldNameForSorting {
 
-   Player, Average,Striking_Rate,Fours,Six,ResultOfSixesWithFours,StrikingRateWithSixesAndFours,AverageWithStrikingRate;
+   Average,Striking_Rate,ResultOfSixesWithFours,StrikingRateWithSixesAndFours,AverageWithStrikingRate,RunsWithAverage;
 }

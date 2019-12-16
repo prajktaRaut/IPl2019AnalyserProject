@@ -31,6 +31,11 @@ public class IPLAnalyser {
         Comparator<IPLCensusDAO> resultOfComparator=averageComparator.thenComparing(strikingRateComparator);
         this.fieldComparatorMap.put(FieldNameForSorting.AverageWithStrikingRate,resultOfComparator.reversed());
 
+        Comparator<IPLCensusDAO> runComparator=Comparator.comparing(field->field.runs);
+        Comparator<IPLCensusDAO> avgComparator=Comparator.comparing(field->field.average);
+        Comparator<IPLCensusDAO> resultOfRunAvgComparator=runComparator.thenComparing(avgComparator);
+        this.fieldComparatorMap.put(FieldNameForSorting.RunsWithAverage,resultOfRunAvgComparator.reversed());
+
     }
 
     public String checkILLFilePresence(String ipl_file_path) {

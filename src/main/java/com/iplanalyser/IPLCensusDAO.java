@@ -7,6 +7,8 @@ public class IPLCensusDAO {
     public double strikingRate;
     public int fours;
     public int six;
+    public int runs;
+
 
     public IPLCensusDAO(IPLCensusCSV iplCensusCSV) {
 
@@ -14,7 +16,7 @@ public class IPLCensusDAO {
         this.average=Double.parseDouble(iplCensusCSV.avg);
         this.strikingRate=iplCensusCSV.sr;
         this.fours=iplCensusCSV.fours;
-        this.six=iplCensusCSV.six;
+        this.runs=iplCensusCSV.runs;
 
     }
 }
