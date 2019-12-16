@@ -1,13 +1,13 @@
 package com.iplanalysertest;
 
 import com.bridgelabzs.CSVBuilderException;
+import com.google.gson.Gson;
+import com.iplanalyser.FieldNameForSorting;
 import com.iplanalyser.IPLAnalyser;
 import com.iplanalyser.IPLCensusCSV;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import java.util.List;
 
 public class IPLAnalyserTest {
 
@@ -18,19 +18,17 @@ public class IPLAnalyserTest {
     private final String EMPTY_IPL_FILE = "/home/admin1/Documents/IPL2019Analyser/src/test/resources/EmptyIPLFile.csv";
     private final String IPL_FILE_FOR_WRONG_DELIMITER_OR_HEADER_POSITION = "/home/admin1/Documents/IPL2019Analyser/src/test/resources/NewIPLDataFile.csv";
 
-
     IPLAnalyser iplAnalyser = new IPLAnalyser();
 
     @Test
     public void method_ToCheck_IPLFileExist_ShouldReturnExist() {
-
-        String result = iplAnalyser.checkIPLFilePresensce(IPL_FILE_PATH);
+        String result = iplAnalyser.checkILLFilePresence(IPL_FILE_PATH);
         Assert.assertEquals("EXIST", result);
     }
 
     @Test
     public void method_ToCheck_IPLFileExist_ShouldReturnDoesNotExist() {
-        String result = iplAnalyser.checkIPLFilePresensce(INCORRECT_IPL_FILE);
+        String result = iplAnalyser.checkILLFilePresence(INCORRECT_IPL_FILE);
         Assert.assertEquals("DOES NOT EXIST", result);
     }
 
@@ -102,8 +100,10 @@ public class IPLAnalyserTest {
     @Test
     public void sortIPLFileData_OnBattingAverage_ShouldReturnSortedRecords() {
         try {
-            List<IPLCensusCSV> iplCensusCSVS = iplAnalyser.sortIPLDataOnBattingAverage(IPL_FILE_PATH);
-            Assert.assertEquals("MS Dhoni", iplCensusCSVS.get(0).player);
+            iplAnalyser.loadIPLData(IPL_FILE_PATH);
+            String iplCensusCSVS = iplAnalyser.sortIPLDataOnBattingAverage(FieldNameForSorting.Average);
+            IPLCensusCSV[] CensusCSV = new Gson().fromJson(iplCensusCSVS, IPLCensusCSV[].class);
+            Assert.assertEquals("MS Dhoni", CensusCSV[0].player);
         } catch (CSVBuilderException e) {
         }
     }
