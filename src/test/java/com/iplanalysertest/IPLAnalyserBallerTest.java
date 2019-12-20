@@ -33,12 +33,6 @@ public class IPLAnalyserBallerTest {
     }
 
     @Test
-    public void method_ToCheck_NOtEmptyIPLFile_ShouldReturnFalse() {
-        boolean result = iplAnalyser.checkIPLFileEmptyOrNot(IPL_MOST_WKTS_FILE_PATH);
-        Assert.assertEquals(false, result);
-    }
-
-    @Test
     public void loadIPLBallerData_ShouldReturnCorrectRecords() {
         try {
             int count = iplAnalyser.loadIPLWicketsData(IPL_MOST_WKTS_FILE_PATH);
@@ -46,5 +40,11 @@ public class IPLAnalyserBallerTest {
             Assert.assertEquals(99,count);
         } catch (CSVBuilderException e) {
         }
+    }
+
+    @Test
+    public void method_ToCheck_NOtEmptyIPLFile_ShouldReturnFalse() {
+        boolean result = iplAnalyser.checkIPLFileEmptyOrNot(IPL_MOST_WKTS_FILE_PATH);
+        Assert.assertEquals(false, result);
     }
 }
