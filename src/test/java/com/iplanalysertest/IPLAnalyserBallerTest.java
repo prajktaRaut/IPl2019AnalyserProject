@@ -4,13 +4,15 @@ import com.bridgelabzs.CSVBuilderException;
 import com.iplanalyser.IPLAnalyser;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class IPLAnalyserBallerTest {
 
-    private static final String EMPTY_IPL_FILE = "./src/test/resources/EmptyIPLFile.csv";
     IPLAnalyser iplAnalyser=new IPLAnalyser();
 
-    private static final String INCORRECT_IPL_FILE = "./src/main/resources/IPL2019FactsheetMostWkts.csv";
+    private static final String WRONG_IPL_FILE_PATH = "./src/main/resources/IPL2019FactsheetMostWkts.csv";
+    private static final String EMPTY_IPL_FILE = "./src/test/resources/EmptyIPLFile.csv";
+    private static final String INCORRECT_IPL_FILE = "./src/test/resources/IPL2019Runs.csv";
     private final String IPL_MOST_WKTS_FILE_PATH = "./src/test/resources/IPL2019FactsheetMostWkts.csv";
 
     @Test
@@ -33,6 +35,12 @@ public class IPLAnalyserBallerTest {
     }
 
     @Test
+    public void method_ToCheck_NOtEmptyIPLFile_ShouldReturnFalse() {
+        boolean result = iplAnalyser.checkIPLFileEmptyOrNot(IPL_MOST_WKTS_FILE_PATH);
+        Assert.assertEquals(false, result);
+    }
+
+    @Test
     public void loadIPLBallerData_ShouldReturnCorrectRecords() {
         try {
             int count = iplAnalyser.loadIPLWicketsData(IPL_MOST_WKTS_FILE_PATH);
@@ -43,8 +51,13 @@ public class IPLAnalyserBallerTest {
     }
 
     @Test
-    public void method_ToCheck_NOtEmptyIPLFile_ShouldReturnFalse() {
-        boolean result = iplAnalyser.checkIPLFileEmptyOrNot(IPL_MOST_WKTS_FILE_PATH);
-        Assert.assertEquals(false, result);
+    public void loadIPLData_WithWrongFile_ShouldThrowException() {
+        try {
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CSVBuilderException.class);
+            iplAnalyser.loadIPLRunsData(WRONG_IPL_FILE_PATH);
+        } catch (CSVBuilderException e) {
+            Assert.assertEquals(CSVBuilderException.ExceptionType.FILE_PROBLEM, e.type);
+        }
     }
 }
