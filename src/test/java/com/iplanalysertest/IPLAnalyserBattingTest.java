@@ -12,7 +12,7 @@ import org.junit.rules.ExpectedException;
 public class IPLAnalyserBattingTest {
 
     private static final String WRONG_IPL_FILE_TYPE = "./src/test/resources/IPL2019FactsheetMostRuns.txt";
-    private final String IPL_FILE_PATH = "./src/test/resources/IPL2019FactsheetMostRuns.csv";
+    private final String IPL_MOST_RUNS_FILE_PATH = "./src/test/resources/IPL2019FactsheetMostRuns.csv";
     private final String WRONG_IPL_FILE_PATH = "./src/main/resources/IPL2019FactsheetMostRuns.csv";
     private final String INCORRECT_IPL_FILE = "./src/test/resources/IPL2019Data.csv";
     private final String EMPTY_IPL_FILE = "./src/test/resources/EmptyIPLFile.csv";
@@ -22,7 +22,7 @@ public class IPLAnalyserBattingTest {
 
     @Test
     public void method_ToCheck_IPLFileExist_ShouldReturnExist() {
-        String result = iplAnalyser.checkILLFilePresence(IPL_FILE_PATH);
+        String result = iplAnalyser.checkILLFilePresence(IPL_MOST_RUNS_FILE_PATH);
         Assert.assertEquals("EXIST", result);
     }
 
@@ -40,7 +40,7 @@ public class IPLAnalyserBattingTest {
 
     @Test
     public void method_ToCheck_NOtEmptyIPLFile_ShouldReturnFalse() {
-        boolean result = iplAnalyser.checkIPLFileEmptyOrNot(IPL_FILE_PATH);
+        boolean result = iplAnalyser.checkIPLFileEmptyOrNot(IPL_MOST_RUNS_FILE_PATH);
         Assert.assertEquals(false, result);
     }
 
@@ -48,7 +48,7 @@ public class IPLAnalyserBattingTest {
     public void loadIPLData_ShouldReturnCorrectRecords() {
         int result = 0;
         try {
-            result = iplAnalyser.loadIPLRunsData(IPL_FILE_PATH);
+            result = iplAnalyser.loadIPLRunsData(IPL_MOST_RUNS_FILE_PATH);
         } catch (CSVBuilderException e) {
         }
     }
@@ -100,7 +100,7 @@ public class IPLAnalyserBattingTest {
     @Test
     public void sortIPLFileData_OnBattingAverage_ShouldReturnSortedRecords() {
         try {
-            iplAnalyser.loadIPLRunsData(IPL_FILE_PATH);
+            iplAnalyser.loadIPLRunsData(IPL_MOST_RUNS_FILE_PATH);
             String iplCensusCSVS = iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.Average);
             IPLRunsDataCSV[] CensusCSV = new Gson().fromJson(iplCensusCSVS, IPLRunsDataCSV[].class);
             Assert.assertEquals("MS Dhoni", CensusCSV[0].player);
@@ -112,7 +112,7 @@ public class IPLAnalyserBattingTest {
     public void sortIPLFileData_OnStrikingRate_ShouldReturnSortedRecords() {
         String iplCensusCSV = null;
         try {
-            iplAnalyser.loadIPLRunsData(IPL_FILE_PATH);
+            iplAnalyser.loadIPLRunsData(IPL_MOST_RUNS_FILE_PATH);
             iplCensusCSV = iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.Striking_Rate);
             IPLRunsDataCSV[] censusCSV = new Gson().fromJson(iplCensusCSV, IPLRunsDataCSV[].class);
             Assert.assertEquals("Ishant Sharma", censusCSV[0].player);
@@ -124,7 +124,7 @@ public class IPLAnalyserBattingTest {
     public void sortIPLFileData_OnSixesAndFours_ShouldReturnSortedResult() {
         String iplCensusCsv = null;
         try {
-            iplAnalyser.loadIPLRunsData(IPL_FILE_PATH);
+            iplAnalyser.loadIPLRunsData(IPL_MOST_RUNS_FILE_PATH);
             iplCensusCsv = iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.ResultOfSixesWithFours);
             IPLRunsDataCSV[] censusCSV = new Gson().fromJson(iplCensusCsv, IPLRunsDataCSV[].class);
             Assert.assertEquals("Andre Russell", censusCSV[0].player);
@@ -137,7 +137,7 @@ public class IPLAnalyserBattingTest {
     public void sortIPLFileData_OnBestStrikingRateAndSixesFours_ShouldReturnSortedResult() {
         String iplCensusCsv=null;
         try {
-            iplAnalyser.loadIPLRunsData(IPL_FILE_PATH);
+            iplAnalyser.loadIPLRunsData(IPL_MOST_RUNS_FILE_PATH);
             iplCensusCsv=iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.StrikingRateWithSixesAndFours);
             IPLRunsDataCSV[] censusCSV=new Gson().fromJson(iplCensusCsv, IPLRunsDataCSV[].class);
             Assert.assertEquals("Andre Russell",censusCSV[0].player);
@@ -150,7 +150,7 @@ public class IPLAnalyserBattingTest {
     public void sortIPLFileData_OnAverageWithStrikingRate_ShouldReturnSortedResult() {
         String iplCensusCsv=null;
         try {
-            iplAnalyser.loadIPLRunsData(IPL_FILE_PATH);
+            iplAnalyser.loadIPLRunsData(IPL_MOST_RUNS_FILE_PATH);
             iplCensusCsv=iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.AverageWithStrikingRate);
             IPLRunsDataCSV[] censusCSV=new Gson().fromJson(iplCensusCsv, IPLRunsDataCSV[].class);
             Assert.assertEquals("MS Dhoni",censusCSV[0].player);
@@ -163,7 +163,7 @@ public class IPLAnalyserBattingTest {
     public void sortIPLFileData_OnRunsWithAverage_ShouldReturnSortedResult() {
         String iplCensusCsv = null;
         try {
-            iplAnalyser.loadIPLRunsData(IPL_FILE_PATH);
+            iplAnalyser.loadIPLRunsData(IPL_MOST_RUNS_FILE_PATH);
             iplCensusCsv = iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.RunsWithAverage);
             IPLRunsDataCSV[] censusCSV = new Gson().fromJson(iplCensusCsv, IPLRunsDataCSV[].class);
             Assert.assertEquals("David Warner ", censusCSV[0].player);
