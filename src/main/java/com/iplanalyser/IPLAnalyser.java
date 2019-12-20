@@ -19,6 +19,13 @@ public class IPLAnalyser {
     Map<String, IPLCensusDAO> censusIPLMap = new HashMap<>();
     Map<FieldNameForSorting, Comparator<IPLCensusDAO>> fieldComparatorMap = new HashMap<>();
 
+    public enum IplDataType
+    {
+        RUNS,WICKET
+    }
+
+    IplDataType type;
+
     public IPLAnalyser() {
         this.fieldComparatorMap.put(FieldNameForSorting.Average, Comparator.comparing(field -> field.average, Comparator.reverseOrder()));
         this.fieldComparatorMap.put(FieldNameForSorting.Striking_Rate, Comparator.comparing(fields -> fields.strikingRate, Comparator.reverseOrder()));
@@ -51,24 +58,11 @@ public class IPLAnalyser {
         return false;
     }
 
-    public int loadIPLRunsData(String csvPath) throws CSVBuilderException {
-        try {
-            Reader reader = Files.newBufferedReader(Paths.get(csvPath));
-            ICSVBuilder icsvBuilder = CSVBuilderFactory.createOpenCSVBuilder();
-            Iterator<IPLRunsDataCSV> iterator = icsvBuilder.getCSVFileIterator(reader, IPLRunsDataCSV.class);
-            Iterable<IPLRunsDataCSV> iterable = () -> iterator;
-            StreamSupport.stream(iterable.spliterator(), false)
-                    .map(IPLRunsDataCSV.class::cast)
-                    .forEach(censusCSV -> censusIPLMap.put(censusCSV.player, new IPLCensusDAO(censusCSV)));
-            return this.censusIPLMap.size();
-
-        } catch (CSVBuilderException e) {
-            throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.UNABLE_TO_PARSE);
-        } catch (IOException e) {
-            throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.FILE_PROBLEM);
-        } catch (RuntimeException e) {
-            throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.HEADER_OR_DELIMITER_PROBLEM);
-        }
+    public int loadIPLData(IplDataType type,String csvPath) throws CSVBuilderException {
+        IPLAdapter adapter = IPLAdapterFactory.getCsvType(type);
+        this.type=type;
+        censusIPLMap = adapter.loadIPLData(type, csvPath);
+        return censusIPLMap.size();
     }
 
     public String sortIPLDataBasedOnFields(FieldNameForSorting fieldName) throws CSVBuilderException {
@@ -81,26 +75,6 @@ public class IPLAnalyser {
 
         String sortedStateCensusJson = new Gson().toJson(arrayList);
         return sortedStateCensusJson;
-    }
-
-    public int loadIPLWicketsData(String csvPath) throws CSVBuilderException {
-        try {
-            Reader reader = Files.newBufferedReader(Paths.get(csvPath));
-            ICSVBuilder icsvBuilder = CSVBuilderFactory.createOpenCSVBuilder();
-            Iterator<IPLWktsDataCSV> iterator = icsvBuilder.getCSVFileIterator(reader, IPLWktsDataCSV.class);
-            Iterable<IPLWktsDataCSV> iterable = () -> iterator;
-            StreamSupport.stream(iterable.spliterator(), false)
-                    .map(IPLWktsDataCSV.class::cast)
-                    .forEach(censusCSV -> censusIPLMap.put(censusCSV.player, new IPLCensusDAO(censusCSV)));
-            return this.censusIPLMap.size();
-
-        } catch (CSVBuilderException e) {
-            throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.UNABLE_TO_PARSE);
-        } catch (IOException e) {
-            throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.FILE_PROBLEM);
-        } catch (RuntimeException e) {
-            throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.HEADER_OR_DELIMITER_PROBLEM);
-        }
     }
 }
 

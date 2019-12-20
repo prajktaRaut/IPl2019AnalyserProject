@@ -4,7 +4,6 @@ import com.bridgelabzs.CSVBuilderException;
 import com.google.gson.Gson;
 import com.iplanalyser.FieldNameForSorting;
 import com.iplanalyser.IPLAnalyser;
-import com.iplanalyser.IPLRunsDataCSV;
 import com.iplanalyser.IPLWktsDataCSV;
 import org.junit.Assert;
 import org.junit.Test;
@@ -48,7 +47,7 @@ public class IPLAnalyserBowlingTest {
     @Test
     public void loadIPLBallerData_ShouldReturnCorrectRecords() {
         try {
-            int count = iplAnalyser.loadIPLWicketsData(IPL_MOST_WKTS_FILE_PATH);
+            int count = iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.WICKET,IPL_MOST_WKTS_FILE_PATH);
             Assert.assertEquals(99,count);
         } catch (CSVBuilderException e) {
         }
@@ -59,7 +58,7 @@ public class IPLAnalyserBowlingTest {
         try {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
-            iplAnalyser.loadIPLWicketsData(WRONG_IPL_FILE_PATH);
+            iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.WICKET,WRONG_IPL_FILE_PATH);
         } catch (CSVBuilderException e) {
             Assert.assertEquals(CSVBuilderException.ExceptionType.FILE_PROBLEM, e.type);
         }
@@ -70,7 +69,7 @@ public class IPLAnalyserBowlingTest {
         try {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
-            iplAnalyser.loadIPLWicketsData(WRONG_IPL_FILE_TYPE);
+            iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.WICKET,WRONG_IPL_FILE_TYPE);
         } catch (CSVBuilderException e) {
             Assert.assertEquals(CSVBuilderException.ExceptionType.FILE_PROBLEM, e.type);
         }
@@ -81,7 +80,7 @@ public class IPLAnalyserBowlingTest {
         try {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
-            iplAnalyser.loadIPLWicketsData(IPL_FILE_FOR_WRONG_DELIMITER_OR_HEADER_POSITION);
+            iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.WICKET,IPL_FILE_FOR_WRONG_DELIMITER_OR_HEADER_POSITION);
         } catch (CSVBuilderException e) {
             Assert.assertEquals(CSVBuilderException.ExceptionType.HEADER_OR_DELIMITER_PROBLEM, e.type);
         }
@@ -92,20 +91,9 @@ public class IPLAnalyserBowlingTest {
         try {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
-            iplAnalyser.loadIPLWicketsData(IPL_FILE_FOR_WRONG_DELIMITER_OR_HEADER_POSITION);
+            iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.WICKET,IPL_FILE_FOR_WRONG_DELIMITER_OR_HEADER_POSITION);
         } catch (CSVBuilderException e) {
             Assert.assertEquals(CSVBuilderException.ExceptionType.HEADER_OR_DELIMITER_PROBLEM, e.type);
-        }
-    }
-
-    @Test
-    public void sortIPLFileData_OnBowlingAverage_ShouldReturnSortedRecords() {
-        try {
-            iplAnalyser.loadIPLRunsData(IPL_MOST_WKTS_FILE_PATH);
-            String iplCensusCSVS = iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.Average);
-            IPLWktsDataCSV[] CensusCSV = new Gson().fromJson(iplCensusCSVS, IPLWktsDataCSV[].class);
-            Assert.assertEquals("Krishnappa Gowtham", CensusCSV[0].player);
-        } catch (CSVBuilderException e) {
         }
     }
 }
