@@ -15,6 +15,7 @@ public class IPLAnalyserBallerTest {
     private static final String EMPTY_IPL_FILE = "./src/test/resources/EmptyIPLFile.csv";
     private static final String INCORRECT_IPL_FILE = "./src/test/resources/IPL2019Runs.csv";
     private final String IPL_MOST_WKTS_FILE_PATH = "./src/test/resources/IPL2019FactsheetMostWkts.csv";
+    private static final String IPL_FILE_FOR_WRONG_DELIMITER_OR_HEADER_POSITION ="./src/test/resources/NewIPLWktsDataFile.csv";
 
     @Test
     public void method_ToCheck_IPLFileExist_ShouldReturnExist() {
@@ -68,6 +69,17 @@ public class IPLAnalyserBallerTest {
             iplAnalyser.loadIPLWicketsData(WRONG_IPL_FILE_TYPE);
         } catch (CSVBuilderException e) {
             Assert.assertEquals(CSVBuilderException.ExceptionType.FILE_PROBLEM, e.type);
+        }
+    }
+
+    @Test
+    public void loadIPLFileData_WithWrongDelimiterPosition_ShouldThrowException() {
+        try {
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CSVBuilderException.class);
+            iplAnalyser.loadIPLRunsData(IPL_FILE_FOR_WRONG_DELIMITER_OR_HEADER_POSITION);
+        } catch (CSVBuilderException e) {
+            Assert.assertEquals(CSVBuilderException.ExceptionType.HEADER_OR_DELIMITER_PROBLEM, e.type);
         }
     }
 }
