@@ -140,4 +140,15 @@ public class IPLAnalyserBowlingTest {
         } catch (CSVBuilderException e) {
         }
     }
+
+    @Test
+    public void sortIPLFileData_OnBowlingAverageWithStrikingRate_ShouldReturnSortedRecords() {
+        try {
+            iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.WICKET,IPL_MOST_WKTS_FILE_PATH);
+            String iplCensusCSVS = iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.AverageWithStrikingRate);
+            IPLWktsDataCSV[] CensusCSV = new Gson().fromJson(iplCensusCSVS, IPLWktsDataCSV[].class);
+            Assert.assertEquals("Krishnappa Gowtham", CensusCSV[0].player);
+        } catch (CSVBuilderException e) {
+        }
+    }
 }
