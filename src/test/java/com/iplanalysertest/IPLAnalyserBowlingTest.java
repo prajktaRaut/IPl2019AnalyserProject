@@ -129,4 +129,15 @@ public class IPLAnalyserBowlingTest {
         } catch (CSVBuilderException e) {
         }
     }
+
+    @Test
+    public void sortIPLFileData_OnStrikingRateWith5WAnd4W_ShouldReturnSortedRecords() {
+        try {
+            iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.WICKET,IPL_MOST_WKTS_FILE_PATH);
+            String iplCensusCSVS = iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.StrikingRateWith5WAnd4W);
+            IPLWktsDataCSV[] CensusCSV = new Gson().fromJson(iplCensusCSVS, IPLWktsDataCSV[].class);
+            Assert.assertEquals("Kagiso Rabada", CensusCSV[0].player);
+        } catch (CSVBuilderException e) {
+        }
+    }
 }
