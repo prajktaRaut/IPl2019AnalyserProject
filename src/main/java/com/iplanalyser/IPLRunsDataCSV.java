@@ -2,7 +2,7 @@ package com.iplanalyser;
 
 import com.opencsv.bean.CsvBindByName;
 
-public class IPLCensusCSV {
+public class IPLRunsDataCSV {
 
     @CsvBindByName(column = "PLAYER")
     public String player;
@@ -21,10 +21,10 @@ public class IPLCensusCSV {
 
     @CsvBindByName(column = "Runs")
     public int runs;
-    public IPLCensusCSV() {
+    public IPLRunsDataCSV() {
     }
 
-    public IPLCensusCSV(String player, String avg, double sr, int fours, int six, int runs) {
+    public IPLRunsDataCSV(String player, String avg, double sr, int fours, int six, int runs) {
         this.player = player;
         this.avg = avg;
         this.sr = sr;

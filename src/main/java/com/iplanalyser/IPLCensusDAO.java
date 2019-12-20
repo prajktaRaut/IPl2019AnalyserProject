@@ -8,15 +8,25 @@ public class IPLCensusDAO {
     public int fours;
     public int six;
     public int runs;
+    public double econ;
+    public int fourWicket;
+    public int fiveWicket;
 
+    public IPLCensusDAO(IPLRunsDataCSV iplRunsDataCSV) {
+        this.player= iplRunsDataCSV.player;
+        this.average=Double.parseDouble(iplRunsDataCSV.avg);
+        this.strikingRate= iplRunsDataCSV.sr;
+        this.fours= iplRunsDataCSV.fours;
+        this.runs= iplRunsDataCSV.runs;
+        this.six= iplRunsDataCSV.six;
+    }
 
-    public IPLCensusDAO(IPLCensusCSV iplCensusCSV) {
-
-        this.player=iplCensusCSV.player;
-        this.average=Double.parseDouble(iplCensusCSV.avg);
-        this.strikingRate=iplCensusCSV.sr;
-        this.fours=iplCensusCSV.fours;
-        this.runs=iplCensusCSV.runs;
-
+    public IPLCensusDAO(IPLWktsDataCSV iplWktsDataCSV) {
+        this.player=iplWktsDataCSV.player;
+        this.average=iplWktsDataCSV.average;
+        this.strikingRate=iplWktsDataCSV.strikingRate;
+        this.fiveWicket=iplWktsDataCSV.fiveWicket;
+        this.fourWicket=iplWktsDataCSV.fourWicket;
+        this.econ=iplWktsDataCSV.econ;
     }
 }
