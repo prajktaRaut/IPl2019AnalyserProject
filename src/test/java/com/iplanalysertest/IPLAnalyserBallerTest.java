@@ -77,7 +77,18 @@ public class IPLAnalyserBallerTest {
         try {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
-            iplAnalyser.loadIPLRunsData(IPL_FILE_FOR_WRONG_DELIMITER_OR_HEADER_POSITION);
+            iplAnalyser.loadIPLWicketsData(IPL_FILE_FOR_WRONG_DELIMITER_OR_HEADER_POSITION);
+        } catch (CSVBuilderException e) {
+            Assert.assertEquals(CSVBuilderException.ExceptionType.HEADER_OR_DELIMITER_PROBLEM, e.type);
+        }
+    }
+
+    @Test
+    public void loadIPLFileData_WithWrongHeader_ShouldThrowException() {
+        try {
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CSVBuilderException.class);
+            iplAnalyser.loadIPLWicketsData(IPL_FILE_FOR_WRONG_DELIMITER_OR_HEADER_POSITION);
         } catch (CSVBuilderException e) {
             Assert.assertEquals(CSVBuilderException.ExceptionType.HEADER_OR_DELIMITER_PROBLEM, e.type);
         }
