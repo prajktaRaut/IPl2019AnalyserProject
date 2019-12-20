@@ -118,4 +118,15 @@ public class IPLAnalyserBowlingTest {
         } catch (CSVBuilderException e) {
         }
     }
+
+    @Test
+    public void sortIPLFileData_OnEconomyRate_ShouldReturnSortedRecords() {
+        try {
+            iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.WICKET,IPL_MOST_WKTS_FILE_PATH);
+            String iplCensusCSVS = iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.EconomyRate);
+            IPLWktsDataCSV[] CensusCSV = new Gson().fromJson(iplCensusCSVS, IPLWktsDataCSV[].class);
+            Assert.assertEquals("Ben Cutting", CensusCSV[0].player);
+        } catch (CSVBuilderException e) {
+        }
+    }
 }
