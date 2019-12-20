@@ -10,6 +10,7 @@ public class IPLAnalyserBallerTest {
 
     IPLAnalyser iplAnalyser=new IPLAnalyser();
 
+    private static final String WRONG_IPL_FILE_TYPE ="./src/main/resources/IPL2019FactsheetMostWkts.txt";
     private static final String WRONG_IPL_FILE_PATH = "./src/main/resources/IPL2019FactsheetMostWkts.csv";
     private static final String EMPTY_IPL_FILE = "./src/test/resources/EmptyIPLFile.csv";
     private static final String INCORRECT_IPL_FILE = "./src/test/resources/IPL2019Runs.csv";
@@ -27,7 +28,6 @@ public class IPLAnalyserBallerTest {
         Assert.assertEquals("DOES NOT EXIST", result);
     }
 
-
     @Test
     public void method_ToCheck_EmptyIPLFile_ShouldReturnTrue() {
         boolean result = iplAnalyser.checkIPLFileEmptyOrNot(EMPTY_IPL_FILE);
@@ -44,7 +44,6 @@ public class IPLAnalyserBallerTest {
     public void loadIPLBallerData_ShouldReturnCorrectRecords() {
         try {
             int count = iplAnalyser.loadIPLWicketsData(IPL_MOST_WKTS_FILE_PATH);
-            System.out.printf("count is "+count);
             Assert.assertEquals(99,count);
         } catch (CSVBuilderException e) {
         }
@@ -55,7 +54,18 @@ public class IPLAnalyserBallerTest {
         try {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
-            iplAnalyser.loadIPLRunsData(WRONG_IPL_FILE_PATH);
+            iplAnalyser.loadIPLWicketsData(WRONG_IPL_FILE_PATH);
+        } catch (CSVBuilderException e) {
+            Assert.assertEquals(CSVBuilderException.ExceptionType.FILE_PROBLEM, e.type);
+        }
+    }
+
+    @Test
+    public void loadIPLData_WithWrongFileType_ShouldThrowException_() {
+        try {
+            ExpectedException exceptionRule = ExpectedException.none();
+            exceptionRule.expect(CSVBuilderException.class);
+            iplAnalyser.loadIPLWicketsData(WRONG_IPL_FILE_TYPE);
         } catch (CSVBuilderException e) {
             Assert.assertEquals(CSVBuilderException.ExceptionType.FILE_PROBLEM, e.type);
         }
