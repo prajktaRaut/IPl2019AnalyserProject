@@ -35,7 +35,7 @@ public class IPLAnalyser {
         Comparator<IPLCensusDAO> resultOfRunAvgComparator = runComparator.thenComparing(avgComparator);
         this.fieldComparatorMap.put(FieldNameForSorting.RunsWithAverage, resultOfRunAvgComparator.reversed());
 
-        this.fieldComparatorMap.put(FieldNameForSorting.EconomyRate, Comparator.comparing(field -> field.econ, Comparator.reverseOrder()));
+        this.fieldComparatorMap.put(FieldNameForSorting.EconomyRate, Comparator.comparing(field -> field.econ));
         this.fieldComparatorMap.put(FieldNameForSorting.ResultOfFiveAndFourWkts, new SortedOnFiveWktsWithFourWkts().reversed());
         this.fieldComparatorMap.put(FieldNameForSorting.StrikingRateWith5WAnd4W, new SortedOnFiveWktsWithFourWkts().reversed().thenComparing((fields -> fields.strikingRate)));
 
@@ -45,6 +45,8 @@ public class IPLAnalyser {
         Comparator<IPLCensusDAO> battingAvgComparator = Comparator.comparing(field -> field.average);
         Comparator<IPLCensusDAO> bowlingAvgComparator = Comparator.comparing(field -> field.bowlingAverage);
         this.fieldComparatorMap.put(FieldNameForSorting.BestBallingAndBattingAverage,battingAvgComparator.thenComparing(bowlingAvgComparator).reversed());
+        Comparator<IPLCensusDAO> resultOfAverage=battingAvgComparator.thenComparing(bowlingAvgComparator);
+        this.fieldComparatorMap.put(FieldNameForSorting.MostRunsWithWickets,resultOfAverage.reversed());
     }
 
     public String checkILLFilePresence(String ipl_file_path) {

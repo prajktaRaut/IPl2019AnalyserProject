@@ -32,11 +32,4 @@ public class IPLCensusDAO {
         this.econ=iplWktsDataCSV.econ;
         this.wicket=iplWktsDataCSV.wickets;
     }
-
-    public Object getIPLDTO(IPLAnalyser.IplDataType type)
-    {
-        if (type.equals(IPLAnalyser.IplDataType.RUNS))
-            return new IPLRunsDataCSV(player,String.valueOf(average),strikingRate,fours,runs,six);
-        return new IPLWktsDataCSV(player,average,strikingRate,fiveWicket,fourWicket,econ,wicket);
-    }
 }
