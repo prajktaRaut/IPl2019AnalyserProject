@@ -16,11 +16,11 @@ public abstract class IPLAdapter {
 
     Map<String, IPLCensusDAO> censusIPLMap = new HashMap<>();
 
-    public abstract Map<String,IPLCensusDAO> loadIPLData(IPLAnalyser.IplDataType type, String iplFilePath) throws CSVBuilderException;
+    public abstract Map<String,IPLCensusDAO> loadIPLData(IPLAnalyser.IplDataType type, String... iplFilePath) throws CSVBuilderException;
 
-    public <E> Map<String,IPLCensusDAO> loadIPLData(Class<E> iplClass,String iplFilePath) throws CSVBuilderException {
+    public <E> Map<String,IPLCensusDAO> loadIPLData(Class<E> iplClass,String... iplFilePath) throws CSVBuilderException {
         try {
-            Reader reader=Files.newBufferedReader(Paths.get(iplFilePath));
+            Reader reader=Files.newBufferedReader(Paths.get(iplFilePath[0]));
             ICSVBuilder icsvBuilder= CSVBuilderFactory.createOpenCSVBuilder();
             Iterator<E> iplCsvIterator=icsvBuilder.getCSVFileIterator(reader,iplClass);
             Iterable<E> csvIterable = ()-> iplCsvIterator;

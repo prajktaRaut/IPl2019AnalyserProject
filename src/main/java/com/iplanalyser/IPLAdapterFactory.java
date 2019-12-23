@@ -5,9 +5,9 @@ public class IPLAdapterFactory {
     public static IPLAdapter getCsvType(IPLAnalyser.IplDataType type)
     {
         if (type.equals(IPLAnalyser.IplDataType.RUNS))
-            return new IPLRunsAdapter();
+            return new IPLBattingAdapter();
         if (type.equals(IPLAnalyser.IplDataType.WICKET))
-            return new IPLWicketsAdapter();
+            return new IPLBowlingAdapter();
         return null;
     }
 }

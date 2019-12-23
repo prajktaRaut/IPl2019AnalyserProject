@@ -2,9 +2,7 @@ package com.iplanalysertest;
 
 import com.bridgelabzs.CSVBuilderException;
 import com.google.gson.Gson;
-import com.iplanalyser.FieldNameForSorting;
-import com.iplanalyser.IPLAnalyser;
-import com.iplanalyser.IPLWktsDataCSV;
+import com.iplanalyser.*;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -19,6 +17,7 @@ public class IPLAnalyserBowlingTest {
     private static final String INCORRECT_IPL_FILE = "./src/test/resources/IPL2019Runs.csv";
     private final String IPL_MOST_WKTS_FILE_PATH = "./src/test/resources/IPL2019FactsheetMostWkts.csv";
     private static final String IPL_FILE_FOR_WRONG_DELIMITER_OR_HEADER_POSITION ="./src/test/resources/NewIPLWktsDataFile.csv";
+    private final String IPL_MOST_RUNS_FILE_PATH = "./src/test/resources/IPL2019FactsheetMostRuns.csv";
 
     @Test
     public void method_ToCheck_IPLFileExist_ShouldReturnExist() {
@@ -159,6 +158,17 @@ public class IPLAnalyserBowlingTest {
             String iplCensusCSVS = iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.MaximumWicketWithAverage);
             IPLWktsDataCSV[] CensusCSV = new Gson().fromJson(iplCensusCSVS, IPLWktsDataCSV[].class);
             Assert.assertEquals("Imran Tahir", CensusCSV[0].player);
+        } catch (CSVBuilderException e) {
+        }
+    }
+
+    @Test
+    public void sortIPLFileData_OnBattingAverageAndBowlingAverage_ShouldReturnSortedRecords() {
+        try {
+            iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.WICKET,IPL_MOST_WKTS_FILE_PATH,IPL_MOST_RUNS_FILE_PATH);
+            String iplCensusCSVS = iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.BestBallingAndBattingAverage);
+            IPLCensusDAO[] CensusCSV = new Gson().fromJson(iplCensusCSVS, IPLCensusDAO[].class);
+            Assert.assertEquals("Andre Russell", CensusCSV[0].player);
         } catch (CSVBuilderException e) {
         }
     }

@@ -22,16 +22,20 @@ public class IPLWktsDataCSV {
     @CsvBindByName(column = "Econ")
     public double econ;
 
+    @CsvBindByName(column = "Wkts")
+    public double wickets;
+
     public IPLWktsDataCSV() {
     }
 
-    public IPLWktsDataCSV(String player, double average, double strikingRate, int fiveWicket, int fourWicket, int econ) {
+    public IPLWktsDataCSV(String player, double average, double strikingRate, int fiveWicket, int fourWicket, double econ, double wickets) {
         this.player = player;
         this.average = average;
         this.strikingRate = strikingRate;
         this.fiveWicket = fiveWicket;
         this.fourWicket = fourWicket;
         this.econ = econ;
+        this.wickets = wickets;
     }
 
     @Override
@@ -43,6 +47,7 @@ public class IPLWktsDataCSV {
                 ", fiveWicket=" + fiveWicket +
                 ", fourWicket=" + fourWicket +
                 ", econ=" + econ +
+                ", wickets=" + wickets +
                 '}';
     }
 }
