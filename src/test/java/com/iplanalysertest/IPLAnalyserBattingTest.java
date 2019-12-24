@@ -2,12 +2,12 @@ package com.iplanalysertest;
 
 import com.bridgelabzs.CSVBuilderException;
 import com.google.gson.Gson;
-import com.iplanalyser.FieldNameForSorting;
-import com.iplanalyser.IPLAnalyser;
-import com.iplanalyser.IPLRunsDataCSV;
+import com.iplanalyser.*;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import static org.mockito.Mockito.mock;
 
 public class IPLAnalyserBattingTest {
 
@@ -16,7 +16,7 @@ public class IPLAnalyserBattingTest {
     private final String WRONG_IPL_FILE_PATH = "./src/main/resources/IPL2019FactsheetMostRuns.csv";
     private final String INCORRECT_IPL_FILE = "./src/test/resources/IPL2019Data.csv";
     private final String EMPTY_IPL_FILE = "./src/test/resources/EmptyIPLFile.csv";
-    private final String IPL_FILE_FOR_WRONG_DELIMITER_OR_HEADER_POSITION = "./src/test/resources/NewIPLDataFile.csv";
+    private final String IPL_FILE_FOR_WRONG_DELIMITER_OR_HEADER_POSITION = "./src/test/resources/NewIPLWktsDataFile.csv";
 
     IPLAnalyser iplAnalyser = new IPLAnalyser();
 
@@ -48,6 +48,7 @@ public class IPLAnalyserBattingTest {
     public void loadIPLData_ShouldReturnCorrectRecords() {
         int result = 0;
         try {
+            iplAnalyser.setIplAdapter(IPLAdapterFactory.getCsvType(IPLAnalyser.IplDataType.RUNS));
             result = iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.RUNS,IPL_MOST_RUNS_FILE_PATH);
         } catch (CSVBuilderException e) {
         }
@@ -58,6 +59,7 @@ public class IPLAnalyserBattingTest {
         try {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
+            iplAnalyser.setIplAdapter(IPLAdapterFactory.getCsvType(IPLAnalyser.IplDataType.RUNS));
             iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.RUNS,WRONG_IPL_FILE_PATH);
         } catch (CSVBuilderException e) {
             Assert.assertEquals(CSVBuilderException.ExceptionType.FILE_PROBLEM, e.type);
@@ -69,6 +71,7 @@ public class IPLAnalyserBattingTest {
         try {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
+            iplAnalyser.setIplAdapter(IPLAdapterFactory.getCsvType(IPLAnalyser.IplDataType.RUNS));
             iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.RUNS,WRONG_IPL_FILE_TYPE);
         } catch (CSVBuilderException e) {
             Assert.assertEquals(CSVBuilderException.ExceptionType.FILE_PROBLEM, e.type);
@@ -80,6 +83,7 @@ public class IPLAnalyserBattingTest {
         try {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
+            iplAnalyser.setIplAdapter(IPLAdapterFactory.getCsvType(IPLAnalyser.IplDataType.RUNS));
             iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.RUNS,IPL_FILE_FOR_WRONG_DELIMITER_OR_HEADER_POSITION);
         } catch (CSVBuilderException e) {
             Assert.assertEquals(CSVBuilderException.ExceptionType.HEADER_OR_DELIMITER_PROBLEM, e.type);
@@ -91,6 +95,7 @@ public class IPLAnalyserBattingTest {
         try {
             ExpectedException exceptionRule = ExpectedException.none();
             exceptionRule.expect(CSVBuilderException.class);
+            iplAnalyser.setIplAdapter(IPLAdapterFactory.getCsvType(IPLAnalyser.IplDataType.RUNS));
             iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.RUNS,IPL_FILE_FOR_WRONG_DELIMITER_OR_HEADER_POSITION);
         } catch (CSVBuilderException e) {
             Assert.assertEquals(CSVBuilderException.ExceptionType.HEADER_OR_DELIMITER_PROBLEM, e.type);
@@ -100,8 +105,9 @@ public class IPLAnalyserBattingTest {
     @Test
     public void sortIPLFileData_OnBattingAverage_ShouldReturnSortedRecords() {
         try {
+            iplAnalyser.setIplAdapter(IPLAdapterFactory.getCsvType(IPLAnalyser.IplDataType.RUNS));
             iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.RUNS,IPL_MOST_RUNS_FILE_PATH);
-            String iplCensusCSVS = iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.Average);
+            String iplCensusCSVS = iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.BattingAverage);
             IPLRunsDataCSV[] CensusCSV = new Gson().fromJson(iplCensusCSVS, IPLRunsDataCSV[].class);
             Assert.assertEquals("MS Dhoni", CensusCSV[0].player);
         } catch (CSVBuilderException e) {
@@ -112,6 +118,7 @@ public class IPLAnalyserBattingTest {
     public void sortIPLFileData_OnStrikingRate_ShouldReturnSortedRecords() {
         String iplCensusCSV = null;
         try {
+            iplAnalyser.setIplAdapter(IPLAdapterFactory.getCsvType(IPLAnalyser.IplDataType.RUNS));
             iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.RUNS,IPL_MOST_RUNS_FILE_PATH);
             iplCensusCSV = iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.Striking_Rate);
             IPLRunsDataCSV[] censusCSV = new Gson().fromJson(iplCensusCSV, IPLRunsDataCSV[].class);
@@ -124,6 +131,7 @@ public class IPLAnalyserBattingTest {
     public void sortIPLFileData_OnSixesAndFours_ShouldReturnSortedResult() {
         String iplCensusCsv = null;
         try {
+            iplAnalyser.setIplAdapter(IPLAdapterFactory.getCsvType(IPLAnalyser.IplDataType.RUNS));
             iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.RUNS,IPL_MOST_RUNS_FILE_PATH);
             iplCensusCsv = iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.ResultOfSixesWithFours);
             IPLRunsDataCSV[] censusCSV = new Gson().fromJson(iplCensusCsv, IPLRunsDataCSV[].class);
@@ -137,6 +145,7 @@ public class IPLAnalyserBattingTest {
     public void sortIPLFileData_OnBestStrikingRateAndSixesFours_ShouldReturnSortedResult() {
         String iplCensusCsv=null;
         try {
+            iplAnalyser.setIplAdapter(IPLAdapterFactory.getCsvType(IPLAnalyser.IplDataType.RUNS));
             iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.RUNS,IPL_MOST_RUNS_FILE_PATH);
             iplCensusCsv=iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.StrikingRateWithSixesAndFours);
             IPLRunsDataCSV[] censusCSV=new Gson().fromJson(iplCensusCsv, IPLRunsDataCSV[].class);
@@ -150,6 +159,7 @@ public class IPLAnalyserBattingTest {
     public void sortIPLFileData_OnAverageWithStrikingRate_ShouldReturnSortedResult() {
         String iplCensusCsv=null;
         try {
+            iplAnalyser.setIplAdapter(IPLAdapterFactory.getCsvType(IPLAnalyser.IplDataType.RUNS));
             iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.RUNS,IPL_MOST_RUNS_FILE_PATH);
             iplCensusCsv=iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.AverageWithStrikingRate);
             IPLRunsDataCSV[] censusCSV=new Gson().fromJson(iplCensusCsv, IPLRunsDataCSV[].class);
@@ -163,6 +173,7 @@ public class IPLAnalyserBattingTest {
     public void sortIPLFileData_OnRunsWithAverage_ShouldReturnSortedResult() {
         String iplCensusCsv = null;
         try {
+            iplAnalyser.setIplAdapter(IPLAdapterFactory.getCsvType(IPLAnalyser.IplDataType.RUNS));
             iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.RUNS,IPL_MOST_RUNS_FILE_PATH);
             iplCensusCsv = iplAnalyser.sortIPLDataBasedOnFields(FieldNameForSorting.RunsWithAverage);
             IPLRunsDataCSV[] censusCSV = new Gson().fromJson(iplCensusCsv, IPLRunsDataCSV[].class);

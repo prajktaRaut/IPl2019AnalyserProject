@@ -37,6 +37,8 @@ public class IPLBowlingAdapter extends IPLAdapter {
             e.printStackTrace();
         } catch (CSVBuilderException e) {
             throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.FILE_PROBLEM);
+        } catch (RuntimeException e) {
+            throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.HEADER_OR_DELIMITER_PROBLEM);
         }
         return censusIPLMap;
     }

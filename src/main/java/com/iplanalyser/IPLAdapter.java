@@ -40,6 +40,8 @@ public abstract class IPLAdapter {
 
         } catch (IOException e) {
             throw new CSVBuilderException(e.getMessage(),CSVBuilderException.ExceptionType.FILE_PROBLEM);
+        } catch (CSVBuilderException| RuntimeException e) {
+            throw new CSVBuilderException(e.getMessage(), CSVBuilderException.ExceptionType.HEADER_OR_DELIMITER_PROBLEM);
         }
     }
 

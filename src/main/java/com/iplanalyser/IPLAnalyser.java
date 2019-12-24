@@ -12,6 +12,12 @@ public class IPLAnalyser {
     Map<String, IPLCensusDAO> censusIPLMap = new HashMap<>();
     Map<FieldNameForSorting, Comparator<IPLCensusDAO>> fieldComparatorMap = new HashMap<>();
 
+    public IPLAdapter iplAdapter;
+
+    public void setIplAdapter(IPLAdapter iplAdapter) {
+        this.iplAdapter = iplAdapter;
+    }
+
     public enum IplDataType
     {
         RUNS,WICKET
@@ -20,7 +26,8 @@ public class IPLAnalyser {
     IplDataType type;
 
     public IPLAnalyser() {
-        this.fieldComparatorMap.put(FieldNameForSorting.Average, Comparator.comparing(field -> field.average, Comparator.reverseOrder()));
+        this.fieldComparatorMap.put(FieldNameForSorting.BattingAverage, Comparator.comparing(field -> field.average, Comparator.reverseOrder()));
+        this.fieldComparatorMap.put(FieldNameForSorting.BowlingAverage, Comparator.comparing(field -> field.bowlingAverage, Comparator.reverseOrder()));
         this.fieldComparatorMap.put(FieldNameForSorting.Striking_Rate, Comparator.comparing(fields -> fields.strikingRate, Comparator.reverseOrder()));
         this.fieldComparatorMap.put(FieldNameForSorting.ResultOfSixesWithFours, new SortedOnSixesWithFours().reversed());
         this.fieldComparatorMap.put(FieldNameForSorting.StrikingRateWithSixesAndFours, new SortedOnSixesWithFours().reversed().thenComparing((fields -> fields.strikingRate)));
@@ -64,9 +71,8 @@ public class IPLAnalyser {
     }
 
     public int loadIPLData(IplDataType type,String... csvPath) throws CSVBuilderException {
-        IPLAdapter adapter = IPLAdapterFactory.getCsvType(type);
         this.type=type;
-        censusIPLMap = adapter.loadIPLData(type, csvPath);
+        censusIPLMap = iplAdapter.loadIPLData(type, csvPath);
         return censusIPLMap.size();
     }
 

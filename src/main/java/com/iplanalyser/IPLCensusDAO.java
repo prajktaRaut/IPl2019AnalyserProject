@@ -32,4 +32,13 @@ public class IPLCensusDAO {
         this.econ=iplWktsDataCSV.econ;
         this.wicket=iplWktsDataCSV.wickets;
     }
+
+    public IPLCensusDAO(String playerName, int average, double strikingRate, int fours, int runs, int six) {
+        this.player=playerName;
+        this.average=average;
+        this.strikingRate=strikingRate;
+        this.fours=fours;
+        this.runs=runs;
+        this.six=six;
+    }
 }
