@@ -18,7 +18,7 @@ import static org.mockito.Mockito.when;
 public class MockitoTest {
 
     private final String IPL_MOST_WKTS_FILE_PATH = "./src/test/resources/IPL2019FactsheetMostWkts.csv";
-
+    private final String IPL_MOST_RUNS_FILE_PATH = "./src/test/resources/IPL2019FactsheetMostRuns.csv";
     @Rule
     public MockitoRule mockitoRule= MockitoJUnit.rule();
 
@@ -32,15 +32,30 @@ public class MockitoTest {
     }
 
     @Test
-    public void getlist()
+    public void loadIPLRunsData_ShouldReturn_CorrectRecords()
     {
-        try {
             IPLAdapter iplAdapter=mock(IPLBattingAdapter.class);
+        try {
+            when(iplAdapter.loadIPLData(IPLAnalyser.IplDataType.RUNS,IPL_MOST_RUNS_FILE_PATH)).thenReturn(this.userList);
+            IPLAnalyser iplAnalyser=new IPLAnalyser();
+            iplAnalyser.setIplAdapter(iplAdapter);
+            int count = iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.RUNS, IPL_MOST_RUNS_FILE_PATH);
+            Assert.assertEquals(2,count);
+        } catch (CSVBuilderException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void loadIPLWicketsData_ShouldReturn_CorrectRecords()
+    {
+        IPLAdapter iplAdapter=mock(IPLBattingAdapter.class);
+        try {
             when(iplAdapter.loadIPLData(IPLAnalyser.IplDataType.WICKET,IPL_MOST_WKTS_FILE_PATH)).thenReturn(this.userList);
             IPLAnalyser iplAnalyser=new IPLAnalyser();
             iplAnalyser.setIplAdapter(iplAdapter);
-            int i = iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.WICKET, IPL_MOST_WKTS_FILE_PATH);
-            Assert.assertEquals(2,i);
+            int count = iplAnalyser.loadIPLData(IPLAnalyser.IplDataType.WICKET, IPL_MOST_WKTS_FILE_PATH);
+            Assert.assertEquals(2,count);
         } catch (CSVBuilderException e) {
             e.printStackTrace();
         }
